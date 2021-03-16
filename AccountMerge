@@ -1,0 +1,59 @@
+class Solution {
+    public List<List<String>> accountsMerge(List<List<String>> accounts) {
+        Map<Integer, List<String>>parentToChidren = new HashMap<>();
+        Map<String, Integer>emailToID = new HashMap<>();
+        Map<String,String>emailToName = new HashMap<>();
+        int index = 0;
+        DSU dsu = new DSU();
+        for(List<String> ele : accounts){
+            int len = ele.size();
+             String name = ele.get(0);
+             String email = "";
+            for(int i = 1;i < len; i++){
+                email = ele.get(i);
+                emailToName.putIfAbsent(email,name);
+                if(!emailToID.containsKey(email)){
+                    emailToID.put(email, index);
+                    index++;
+                }
+                dsu.union(emailToID.get(ele.get(1)), emailToID.get(email));   
+            }  
+        }
+        //gather all children with same rootID together
+        for(Map.Entry<String,Integer> ele : emailToID.entrySet()){
+            String email = ele.getKey();
+            int id = ele.getValue();
+            int rootId = dsu.find(id);
+            parentToChidren.computeIfAbsent(rootId, x -> new ArrayList<>()).add(email);
+        }
+       List<List<String>> result = new ArrayList<>();
+        for(List<String>value: parentToChidren.values()){
+            Collections.sort(value);
+            value.add(0, emailToName.get(value.get(0)));
+            result.add(value);
+        }
+        return result;  
+    }
+    private class DSU{
+        int[] mark = new int[10001];
+        public DSU(){
+            for(int i = 0; i <= 10000; i++){
+                mark[i] = i;
+            }
+        }
+        public int find(int x){
+            if( x != mark[x]){
+                mark[x] = find(mark[x]);
+            }
+            return mark[x];
+        }
+        public void union(int x , int y){
+            int parentX = find(x);
+            int parentY = find(y);
+            if(parentX != parentY ){
+                mark[parentX] = parentY;
+            }
+        }
+        
+    }
+}
