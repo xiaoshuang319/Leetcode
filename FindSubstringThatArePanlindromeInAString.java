@@ -1,3 +1,4 @@
+//optimized solution:https://www.geeksforgeeks.org/find-number-distinct-palindromic-sub-strings-given-string/
 import java.util.*;
 public class HelloWorld{
 
