@@ -28,3 +28,31 @@ class Solution {
         
     }
 }
+//04/21/2020
+class Solution {
+    public int lengthOfLongestSubstringKDistinct(String s, int k) {
+        int len = s.length();
+        int[]freq = new int[256];
+        int count = 0;
+        int start = 0, end = 0, result = 0;
+        while(end < len){
+            char curr = s.charAt(end);
+            if(freq[(int)(curr)] == 0){
+                count++;
+            }
+            freq[(int)(curr)]++;
+            while(start < len && count > k){
+                char deletedCurr = s.charAt(start);
+                freq[(int)(deletedCurr)]--;
+                if(freq[(int)(deletedCurr)] == 0){
+                    count--;
+                }
+                start++;
+            }
+             end++;
+            result = Math.max(result, end - start);
+           
+        }
+        return result;
+    }
+}
