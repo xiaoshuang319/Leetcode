@@ -13,44 +13,62 @@
  *     }
  * }
  */
-// Integer, Map<Integer, PriortiyQueue<>)   PriorityQueue     
-// col           row,val          
-// -2,           2,(4)                         (4)
-// -1,           1,(2)                         (2)  
-//  0,           (0,1)(2,(5,6))                (1)(5,6)
-//  1,           1,3                           (3)
-//  2,           2,7                          () 7)            
-    
 class Solution {
     public List<List<Integer>> verticalTraversal(TreeNode root) {
-        TreeMap<Integer,TreeMap<Integer,PriorityQueue<Integer>>>colToNode = new TreeMap<>();
-        helper(root, 0, 0, colToNode);//O(n)
+        int height = getHeight(root);
+        int totalBuckets = 2 * height - 1;
+        int midIndex = height - 1;
         List<List<Integer>>result = new ArrayList<>();
-        for(Map<Integer,PriorityQueue<Integer>> ele : colToNode.values()){
-            List<Integer>tempResult = new ArrayList<>();
-            for(PriorityQueue<Integer>value : ele.values()){
-               while(!value.isEmpty()){
-                   tempResult.add(value.poll());
-               }
-            }
-            result.add(tempResult); 
+        for(int i = 0; i < totalBuckets; i++){
+            result.add(new ArrayList<>());
         }
+        Queue<Node>queue = new LinkedList<>();
+        queue.add(new Node(root,midIndex));
+        while(!queue.isEmpty()){
+            int size = queue.size();
+            Map<Integer,List<Integer>>indexToValue = new HashMap<>();
+            for(int i = 0; i < size; i++){
+                Node currNode = queue.poll();
+                int index = currNode.yCoordinator;
+                if(indexToValue.containsKey(index)){
+                    indexToValue.get(index).add(currNode.node.val);
+                }else{
+                    List<Integer>temp = new ArrayList<>();
+                    temp.add(currNode.node.val);
+                    indexToValue.put(index,temp );
+                }
+                if(currNode.node.left != null){
+                    queue.add(new Node(currNode.node.left,index - 1));
+                }
+                if(currNode.node.right != null){
+                    queue.add(new Node(currNode.node.right,index + 1));
+                }
+            }
+            for(Map.Entry<Integer,List<Integer>>ele : indexToValue.entrySet()){
+                List<Integer>temp = ele.getValue();
+                Collections.sort(temp);
+                result.get(ele.getKey()).addAll(temp);
+            }
+            
+        }
+       result.removeIf(ele -> ele.size() == 0);
         return result;
     }
-    private void helper(TreeNode node, int col, int row,TreeMap<Integer,TreeMap<Integer,PriorityQueue<Integer>>>colToNode){
-        if(node==null)return;
-        if(!colToNode.containsKey(col)){
-            colToNode.put(col, new TreeMap<>());
+    private class Node{
+        TreeNode node;
+        int yCoordinator;
+        public Node(TreeNode node, int yCoordinator){
+            this.node = node;
+            this.yCoordinator = yCoordinator;
         }
-        if(!colToNode.get(col).containsKey(row)){
-            colToNode.get(col).put(row, new PriorityQueue<>());
+    }
+    private int getHeight(TreeNode node){
+        if(node == null){
+            return 0;
         }
-        colToNode.get(col).get(row).add(node.val);
-        helper(node.left, col - 1, row + 1,colToNode);
-        helper(node.right, col + 1, row + 1,colToNode);
+        return Math.max(getHeight(node.left), getHeight(node.right)) + 1;
     }
 }
-
 //similar: Binary Tree Vertical Order Traversal
 /**
  * Definition for a binary tree node.
