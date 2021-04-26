@@ -38,3 +38,64 @@ class Solution {
         return pos == - 1 ? - 1 : nums[pos] == target ? pos : -1;
     }
 }
+
+
+
+//similar method but different questions
+//thought: find lowe bound, upper bound for subarray with len k .
+class Solution {
+    public List<Integer> findClosestElements(int[] arr, int k, int x) {
+        int left = findLastElementLessThanK(arr,x);
+        System.out.println(left);
+        int right =  findFirstElementGreaterThanK(arr,x);
+         System.out.println(right);
+        List<Integer>result = new ArrayList<>();
+        while( k - (right - left - 1 ) > 0){
+            if(left == -1){
+              right++;
+            }else if(right == arr.length){
+              left--;
+            }else if( x - arr[left] <= arr[right] - x){
+                left--;
+            }else{
+              right++;
+            }
+        }
+      for(int i = left + 1; i < right; i++){
+        result.add(arr[i]);
+      }
+      return result;
+    }
+    private int findLastElementLessThanK(int[]arr,int x){
+      int start = 0;
+      int end = arr.length - 1;
+      int pos = -1;
+      while(start <= end){
+        int mid = start + (end - start) / 2;
+        int fMid = arr[mid];
+        if(fMid < x){
+          pos = mid;
+          start = mid + 1;
+        }else{
+          end = mid - 1;
+        }
+      }
+      return pos;
+    }
+    private int findFirstElementGreaterThanK(int[]arr,int x){
+      int start = 0;
+      int end = arr.length - 1;
+      int pos = arr.length; // in case there no element greater than target, use pos = arr.length to differentia with no element less than K
+      while(start <= end){
+        int mid = start + (end - start) / 2;
+        int fMid = arr[mid];
+        if(x < fMid){
+          pos = mid;
+          end = mid - 1;
+        }else{
+          start = mid + 1;
+        }
+      }
+      return pos;
+    }
+}
