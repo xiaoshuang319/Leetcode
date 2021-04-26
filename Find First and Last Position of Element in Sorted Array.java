@@ -105,7 +105,7 @@ class Solution {
         int start = 0, end = arr.length - k; //the possible range of lowr bound
         while(start < end){
              int mid = start + (end - start) /2;
-            if(x - arr[mid] > arr[mid + k] - x){
+            if(x - arr[mid] > arr[mid + k] - x){ //A = [1,1,2,2,2,2,2,3,3], x = 3, k = 3
                start = mid + 1;
             }else{
                end = mid;
