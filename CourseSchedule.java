@@ -82,3 +82,54 @@ class Solution {
         return takeCourse == numCourses;
     }
 }
+//course schedule II 
+class Solution {
+    public int[] findOrder(int numCourses, int[][] prerequisites) {
+        Map<Integer,List<Integer>>preToNext = new HashMap<>();
+        int[] indegree = new int[numCourses];
+        //build graph + record indegree
+        for(int[] course : prerequisites){
+          if(preToNext.containsKey(course[1])){
+              preToNext.get(course[1]).add(course[0]);
+          }else{
+        
+              preToNext.put(course[1], new ArrayList<>());
+              preToNext.get(course[1]).add(course[0]);
+          }
+          indegree[course[0]]++; 
+       }
+       int[] result = new int[numCourses];
+        int takeCourse = 0;
+        int index = 0;
+        //Get no prerequest course
+        Queue<Integer>queue = new LinkedList<>();
+        for(int i = 0; i < numCourses; i++){//note：这里要用到numCourses而不能用map，因为map存的是有prerequest的。对于没有prerequest那么比如1 【】这个就适用了
+            if(indegree[i] == 0){    
+                queue.add(i);
+                result[index] = i;
+                index++;
+                takeCourse++;
+            }
+        }
+        //check followed course 
+        while(!queue.isEmpty()){
+            int size = queue.size();
+            for(int i = 0; i < size; i++){
+                int curr = queue.poll();
+                if(preToNext.containsKey(curr)){
+                    for(int ele : preToNext.get(curr)){
+                        indegree[ele]--;
+                        if(indegree[ele] == 0){
+                            result[index] =ele;
+                            index++;
+                            queue.add(ele);
+                            takeCourse++;    
+                        }
+                    }                    
+                }
+            }
+        }
+        return takeCourse != numCourses ? new int[]{} : result;
+       
+    }
+}
