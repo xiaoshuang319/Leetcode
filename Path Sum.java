@@ -115,15 +115,14 @@ class Solution {
         }
         //一路往下的操作
         path.add(String.valueOf(node.val));
-        if(node.left == null && node.right == null){
+        if(node.left == null && node.right == null){ 
             result.add(String.join("->",path));
-        }else{
-            inorder(node.left, path, result);
-            inorder(node.right, path, result); 
+            path.remove(path.size() - 1);
+            return;
         }
-        //左边和右边走完之后，返回上一层的操作
-       path.remove(path.size() - 1);
+        inorder(node.left, path, result);
+        inorder(node.right, path, result); 
+         //左边和右边走完之后，返回上一层的操作
+        path.remove(path.size() - 1);
     }
 }
-
-
