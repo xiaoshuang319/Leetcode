@@ -73,3 +73,28 @@ class Solution {
         return result;
     }
 }
+//一摸一样
+class Solution {
+    public int lengthOfLongestSubstring(String s) {
+        //Map<Character,Integer>freq = new HashMap<>();
+        boolean[]visited = new boolean[256];
+        int start = 0;
+        int result = 0;
+
+        for(int end = 0; end < s.length(); end++){
+            char curr = s.charAt(end);
+            while(visited[curr]){//一旦当前charactrer被visit过那么，凡事以当前character结尾的全删除
+                    char deletedChar = s.charAt(start);
+                    visited[deletedChar] = false;
+                    start++;
+            } 
+            visited[curr] = true;
+            result = Math.max(result, end - start + 1);
+          
+        } 
+      
+      return result;
+    }
+
+}
+
