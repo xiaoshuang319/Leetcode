@@ -98,3 +98,21 @@ class Solution {
 
 }
 
+
+//两个相同的数的距离是否 <= k
+//其实就是相同的两个数是否出现在同一个window里。
+class Solution {
+    public boolean containsNearbyDuplicate(int[] nums, int k) {
+       //两个index之间的距离abs(i - j)
+        Set<Integer>set = new HashSet<>();
+        for(int i = 0; i < nums.length; i++){
+            if(i > k){
+                set.remove(nums[i - k - 1]); //当windown size 对于k + 1的时候直接删除window头部的元素
+            }
+            if(!set.add(nums[i]))return true;
+        }
+        return false;
+    }
+}
+
+
