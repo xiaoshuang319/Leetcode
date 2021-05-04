@@ -126,3 +126,33 @@ class Solution {
         path.remove(path.size() - 1);
     }
 }
+//permuation
+        class Solution {
+    public List<List<Integer>> permute(int[] nums) {
+        if(nums == null || nums.length == 0){
+            return new ArrayList<>();
+        }
+        List<List<Integer>>result = new ArrayList<>();
+        List<Integer>path = new ArrayList<>();
+        Set<Integer>visited = new HashSet<>();
+        helper(nums, path, result,visited );
+        return result;
+    }
+    private void helper(int[]nums,List<Integer>path, List<List<Integer>>result, Set<Integer>visited){
+        if(path.size() == nums.length){
+            result.add(new ArrayList<>(path));
+            return;
+        }
+        for(int i = 0; i < nums.length; i++){
+              if(visited.contains(nums[i])){
+                  continue;
+              }
+              path.add(nums[i]);
+              visited.add(nums[i]);
+              helper(nums, path, result, visited);
+              path.remove(path.size() - 1);
+              visited.remove(nums[i]);
+        }
+
+    }
+}
