@@ -116,3 +116,23 @@ class Solution {
 }
 
 
+// Contains Duplicate III
+//其实就在同一个window里，比较最大的那个数（小于等于我的）和我之间的差值有没有可能小于等于t
+class Solution {
+    public boolean containsNearbyAlmostDuplicate(int[] nums, int k, int t) {
+        //两个index之间的距离abs(i - j)
+        TreeSet<Long>set = new TreeSet<>();
+        for(int i = 0; i < nums.length; i++){
+            if(i > k){
+                set.remove((long)(nums[i - k - 1])); //当windown size 对于k + 1的时候直接删除window头部的元素
+            } 
+            long addElement = (long)(nums[i]);
+            Long floorNumber = set.floor(addElement); //among all less or equal element, find the largest one
+            Long ceilingNumber = set.ceiling(addElement); //among all greater or equal element, find the smallest one.
+            if(floorNumber != null && (addElement- floorNumber) <= t)return true;
+            if(ceilingNumber != null && (ceilingNumber - addElement) <= t)return true;
+            set.add(addElement);
+        }
+        return false;
+    }
+}
