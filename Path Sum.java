@@ -100,3 +100,31 @@ class Solution {
         int leftSum = getSum(node.left, currSum);
         int rightSum = getSum(node.right, currSum);
         return leftSum + rightSum;
+        
+//binaryTreePaths
+        
+   class Solution {
+    public List<String> binaryTreePaths(TreeNode root) {
+        List<String>result = new ArrayList<>();
+        inorder(root,new StringBuilder(), result);
+        return result;
+    }
+    private void inorder(TreeNode node, StringBuilder path, List<String>result){
+        if(node == null){
+            return;
+        }
+        //一路往下的操作
+        int len = path.length();
+        path.append(node.val);
+        if(node.left == null && node.right == null){
+            result.add(path.toString());
+        }else{
+            path.append("->");
+            inorder(node.left, path, result);
+            inorder(node.right, path, result); 
+        }
+        //往上的操作：左边和右边走完之后，直接修改restore path
+       path.setLength(len);
+    }
+}
+
