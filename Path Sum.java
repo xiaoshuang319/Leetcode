@@ -103,28 +103,27 @@ class Solution {
         
 //binaryTreePaths
         
-   class Solution {
+ class Solution {
     public List<String> binaryTreePaths(TreeNode root) {
         List<String>result = new ArrayList<>();
-        inorder(root,new StringBuilder(), result);
+        inorder(root,new ArrayList<>(), result);
         return result;
     }
-    private void inorder(TreeNode node, StringBuilder path, List<String>result){
+    private void inorder(TreeNode node, List<String> path, List<String>result){
         if(node == null){
             return;
         }
         //一路往下的操作
-        int len = path.length();
-        path.append(node.val);
+        path.add(String.valueOf(node.val));
         if(node.left == null && node.right == null){
-            result.add(path.toString());
+            result.add(String.join("->",path));
         }else{
-            path.append("->");
             inorder(node.left, path, result);
             inorder(node.right, path, result); 
         }
-        //往上的操作：左边和右边走完之后，直接修改restore path
-       path.setLength(len);
+        //左边和右边走完之后，返回上一层的操作
+       path.remove(path.size() - 1);
     }
 }
+
 
