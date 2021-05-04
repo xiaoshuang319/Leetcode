@@ -27,6 +27,8 @@ class Solution {
                 twoSum.add(nums[start]);
                 twoSum.add(nums[end]);
                 result.add(twoSum);
+                //只能判断当前和下一个，因为最后start也要在加一次
+                //终止条件是nums[start] ！= nums[start + 1] 但还是等于nums[start - 1]
                 while(start + 1 < len && nums[start] == nums[start + 1]){
                     start++;
                 }
