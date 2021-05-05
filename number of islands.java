@@ -28,3 +28,40 @@ class Solution {
        marker(grid, rowIndex, colIndex + 1, rowLen, colLen,visited);
     }
 }
+//Word Search
+class Solution {
+    public boolean exist(char[][] board, String word) {
+        
+        int rowLen = board.length, colLen = board[0].length;
+        boolean[][]visited = new boolean[rowLen][colLen];
+        for(int i = 0; i < rowLen; i++){
+            for(int j = 0; j < colLen; j++){
+                if(board[i][j] == word.charAt(0)){//遍历每个以grid开始的character
+                    if(found(board, i, j, rowLen, colLen, visited,0,word)){
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+    private boolean found(char[][]board, int rowIndex, int colIndex, int rowLen, int colLen, boolean[][]visited, int currIndex, String word){
+        if(currIndex == word.length()){
+            return true;
+        }
+        if(rowIndex >= rowLen || rowIndex < 0 || colIndex >= colLen || colIndex < 0 || board[rowIndex][colIndex] != word.charAt(currIndex) || visited[rowIndex][colIndex]){
+            return false;
+        }
+        visited[rowIndex][colIndex] = true;
+        if(
+           found(board,rowIndex - 1, colIndex, rowLen, colLen, visited, currIndex + 1, word)  
+            || found(board,rowIndex + 1, colIndex, rowLen, colLen, visited, currIndex + 1,word)  
+           ||  found(board,rowIndex, colIndex - 1, rowLen, colLen, visited, currIndex + 1,word)  
+           ||  found(board,rowIndex, colIndex + 1, rowLen, colLen, visited, currIndex + 1,word) 
+        ){
+            return true;
+        }
+      visited[rowIndex][colIndex] = false;
+        return false;
+    }
+}
