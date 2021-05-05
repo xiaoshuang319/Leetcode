@@ -35,6 +35,28 @@ class Solution {
         return dummyNode.next;
     }
 }
-//342
-//465
- //  8 0 7
+//类似题：add two string
+class Solution {
+    public String addStrings(String num1, String num2) {
+        int idx1 = num1.length() - 1, idx2 = num2.length() - 1;
+        StringBuilder result = new StringBuilder();
+        int carry = 0;
+        while(idx1 >= 0 || idx2 >= 0){
+            int idx1Sum =  idx1 >= 0 ? num1.charAt(idx1) - '0' : 0;
+            int idx2Sum = idx2 >= 0 ? num2.charAt(idx2) - '0' : 0;
+            int currValue = idx1Sum + idx2Sum + carry;
+            if(currValue >= 10){
+                carry = 1;
+            }else{
+                carry = 0;
+            }
+            idx1--;
+            idx2--;
+            result.append(currValue % 10);
+        }
+        if(carry == 1){
+             result.append(carry);
+        }
+        return result.reverse().toString();
+    }
+}
