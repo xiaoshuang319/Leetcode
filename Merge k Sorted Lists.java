@@ -125,3 +125,42 @@ class Solution {
     }
 }
 
+//Reverse Nodes in k-Group
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode reverseKGroup(ListNode head, int k) {
+        return dfs(head, k, len(head));
+    }
+    private ListNode dfs(ListNode node, int k, int len){
+        if(k > len){
+            return node;
+        }
+        ListNode tail = node;
+        ListNode pre = null,temp = null;
+        for(int i = 0; i < k; i++){
+            temp = node.next;
+            node.next = pre;
+            pre = node;
+            node = temp;
+        }
+        tail.next = dfs(node, k,len - k);
+        return pre;
+    }
+    private int len(ListNode node){
+        int len = 0;
+        while(node != null){
+            node = node.next;
+            len++;
+        }
+        return len;
+    }
+}
