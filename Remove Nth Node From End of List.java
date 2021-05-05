@@ -51,3 +51,38 @@ class Solution {
         return head;
     }
 }
+
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+//要知道target的previous
+class Solution {
+    public ListNode reverseBetween(ListNode head, int left, int right) {
+      ListNode dummyNode = new ListNode(-1);
+      dummyNode.next = head;
+      ListNode pre = dummyNode;
+      //find left target's previous
+      for(int i = 1; i < left ; i++){
+          pre = pre.next;
+      }
+      //left target
+      ListNode curr = pre.next;
+        //最简单的例子 1-〉2-〉3 -〉 4要交换2 和3
+       for(int i = left; i < right; i++){
+          ListNode next = curr.next;
+          curr.next = next.next;
+          next.next = pre.next;
+          pre.next = next;  
+       }
+      return dummyNode.next;
+
+    }
+}
