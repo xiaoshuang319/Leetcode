@@ -85,4 +85,17 @@ class Solution {
       return dummyNode.next;
 
     }
-}
+}//的previous
+class Solution {
+    private TreeNode pre = null;
+    public void flatten(TreeNode root) {
+       if(root == null)return;
+        flatten(root.right);
+        flatten(root.left);
+        //到我的话
+        //我的右边应该point出上次flatten的root
+        //我的左边是null
+        root.right = pre;
+        root.left = null;
+        pre = root;
+    }
