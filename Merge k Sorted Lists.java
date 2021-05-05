@@ -70,7 +70,6 @@ class Solution {
 }
 //类似题
 //Sort List
-
 /**
  * Definition for singly-linked list.
  * public class ListNode {
@@ -111,3 +110,18 @@ class Solution {
         }
     }
 }
+
+//Reverse Linked List
+class Solution {
+    public ListNode reverseList(ListNode head) {
+        if(head == null || head.next == null){
+            return head;
+        }
+        ListNode nextHead = head.next;
+        ListNode newHead = reverseList(nextHead);
+        nextHead.next = head;
+        head.next = null;
+        return newHead;
+    }
+}
+
