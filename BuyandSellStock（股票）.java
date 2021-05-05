@@ -63,4 +63,30 @@ class Solution {
     }
 }
 //follow up 3: at most 2 transactions
-/
+class Solution {
+    //hold: maximum profit when hold stock
+    //sold:maximum profit when sell the stock
+   //第k天的第一次交易
+    // hold1[k] = max(0 - p, hold1[k-1]);
+    // sold1[k] = max(sold[k - 1], hold1[k] + p );
+    //  //第k天的第二次交易
+    //  hold2[k] = max(sold1[k] - p, hold1[k-1]);
+    //  sold2[k] = max(hold2[k - 1] + p, sold2[k-1]);
+    public int maxProfit(int[] prices) {
+        int hold1 = Integer.MIN_VALUE, sold1 = 0, hold2 = Integer.MIN_VALUE, sold2 = 0;
+       for(int i = 0; i < prices.length; i++){
+           int p = prices[i];
+           int hold1_temp = hold1;
+           int sold1_temp = sold1;
+           int hold2_temp = hold2;
+           int sold2_temp = sold2;
+           hold1 = Math.max(0 - p, hold1_temp);
+           sold1 = Math.max(hold1 + p, sold1_temp);
+           hold2 = Math.max(sold1 - p, hold2_temp);
+           sold2 = Math.max(hold2 + p, sold2_temp);
+       } 
+        return Math.max(sold1, sold2);
+    }
+
+    
+}
