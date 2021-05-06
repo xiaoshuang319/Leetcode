@@ -156,3 +156,24 @@ class Solution {
 
     }
 }
+
+ //combine
+  class Solution {
+    public List<List<Integer>> combine(int n, int k) {
+        List<List<Integer>>result = new ArrayList<>();
+        helper(result, new ArrayList<>(), n, k, 1);
+        return result;
+        
+    }
+    private void helper(List<List<Integer>>result, List<Integer>path, int n, int k, int startIndex){
+        if(k == 0){
+            result.add(new ArrayList<>(path));
+            return;
+        }
+        for(int i = startIndex; i <= n; i++){
+            path.add(i);
+            helper(result,path,n,k - 1, i + 1);
+            path.remove(path.size() - 1);
+        }
+    }
+}
