@@ -60,3 +60,31 @@ class Solution {
         return result.reverse().toString();
     }
 }
+//类似题：Plus One
+class Solution {
+    public int[] plusOne(int[] digits) {
+        int len = digits.length;
+        List<Integer>result = new ArrayList<>();
+        int carry = 0;
+      
+        for(int i = len - 1; i >= 0; i--){
+            int sum = (i == len - 1 ? digits[i] + 1 : digits[i]) + carry;
+            if(sum >= 10){
+                carry = 1;
+            }else{
+                carry = 0;
+            }
+            result.add(sum % 10);
+        }
+        if(carry == 1){
+            result.add(carry);
+        }
+        int[]finalResult = new int[result.size()];
+        int index = result.size() - 1;
+        while(index >= 0){
+            finalResult[index] = result.get( result.size() - 1 - index );
+            index--;
+        }
+        return finalResult;
+    }
+}
