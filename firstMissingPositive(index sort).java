@@ -22,3 +22,26 @@ class Solution {
     }
     
 }
+//missing number
+//一摸一样
+class Solution {
+    public int missingNumber(int[] nums) {
+   
+        for(int i = 0; i < nums.length; i++){
+            while(i != nums[i] && nums[i] < nums.length && nums[nums[i]] != nums[i]){
+                swap(nums,i, nums[i]);
+            }
+        }
+        for(int i = 0; i < nums.length; i++){
+            if(i != nums[i]){
+                return i;
+            }
+        }
+        return nums.length;
+    }
+    private void swap(int[]nums, int a , int b){
+        int temp = nums[a];
+        nums[a] = nums[b];
+        nums[b] = temp;
+    }
+}
