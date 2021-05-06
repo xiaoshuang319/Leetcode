@@ -177,3 +177,38 @@ class Solution {
         }
     }
 }
+   
+   //letter combintion
+    //本质：对一个word进行backtrack直到word的end position
+class Solution {
+    public List<String> letterCombinations(String digits) {
+        if(digits == null || digits.length() == 0){
+            return new ArrayList<>();
+        }
+        Map<Character,String>digitToChars = new HashMap<>();
+        digitToChars.put('2',"abc");
+        digitToChars.put('3',"def");
+        digitToChars.put('4',"ghi");
+        digitToChars.put('5',"jkl");
+        digitToChars.put('6',"mno");
+        digitToChars.put('7',"pqrs");
+        digitToChars.put('8',"tuv");
+        digitToChars.put('9',"wxyz");
+        List<String>result = new ArrayList<>();
+        helper(result,new StringBuilder(), digitToChars, 0,digits);
+        return result;
+    }
+    private void helper(List<String>result, StringBuilder path, Map<Character,String>digitToChars, int index, String digits){
+         
+        if(index == digits.length()){
+            result.add(path.toString());
+            return;
+        }
+        char curr = digits.charAt(index);
+        for(int i = 0; i < digitToChars.get(curr).length(); i++){//对每个数字所代表的string backtrack
+            path.append(digitToChars.get(curr).charAt(i));
+            helper(result,path,digitToChars,index + 1,digits);
+            path.deleteCharAt(path.length() - 1);
+        }
+    }
+}
