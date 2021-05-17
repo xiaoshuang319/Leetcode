@@ -81,3 +81,57 @@ class Solution {
         return accumulatedSum + preNum;
     }
 }
+//basic caculator 
+class Solution {
+    public int calculate(String s) {
+        Stack<Integer>stack = new Stack<>();
+        char signal = '+';
+        int result = 0;
+        int len = s.length();
+        int digit = 0;
+        for(int i = 0; i < len; i++){
+            char currCharacter = s.charAt(i);
+            if(Character.isDigit(currCharacter)){
+                digit = currCharacter - '0';
+                System.out.println(digit);
+                while(i + 1 < len && Character.isDigit(s.charAt(i + 1))){
+                    digit = digit * 10 + (s.charAt(i + 1) - '0');
+                    i++;
+                }
+            }
+            if(currCharacter == '('){
+                int leftCount = 1;
+                int j = i + 1;
+                while(leftCount > 0 ){
+                    char curr = s.charAt(j);
+                    if(curr == '('){
+                        leftCount++;
+                    }else if(curr == ')'){
+                        leftCount--;
+                    }
+                    j++;
+                }
+                String temp = s.substring(i + 1, j);
+                digit = calculate(temp);
+                i = j - 1;
+            }
+            if((currCharacter != ' ' && !Character.isDigit(currCharacter)) || i == len - 1){
+                 // System.out.println(digit);
+                if(signal == '+'){
+                 
+                    stack.push(digit);
+                }
+                if(signal == '-'){
+                    stack.push(-digit);
+                }
+                signal = currCharacter;
+                digit = 0;
+            }
+        }
+       
+        while(!stack.isEmpty()){
+             result += stack.pop();
+        }
+        return result;
+    }
+}
