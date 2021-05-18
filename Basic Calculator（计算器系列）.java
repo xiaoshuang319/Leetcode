@@ -1,3 +1,44 @@
+//basic caculator  I
+//sign: tell the current digit it is negative or positive
+//result: accumulateive sum
+//case1: not (, when i meet digit, keep adding digit*sign to result
+//case2: (, need to writed down sign, result and reset sign, result for cacualtion inside.
+//case3: ), current result means all reust insedie parentehese, 
+class Solution {
+    public int calculate(String s) {
+       int len = s.length();
+        int result = 0;
+        int previousSign = 1;
+        Stack<Integer>stack = new Stack<>();
+        for(int i = 0; i < len; i++){
+            char curr = s.charAt(i);
+            if(Character.isDigit(curr)){
+               int digit = curr - '0';
+                while(i + 1 < len && Character.isDigit(s.charAt(i + 1))){
+                    digit = digit * 10 + (s.charAt(i + 1) - '0');
+                    i++;
+                }
+                result = result + (digit * previousSign);  
+            }else if(!Character.isDigit(curr) && curr != ' '){
+                if(curr == '+'){
+                    previousSign = 1;
+                }else if(curr == '-'){
+                    previousSign = -1;
+                }else if(curr == '('){
+                    stack.push(result);
+                    stack.push(previousSign);
+                    result = 0;
+                    previousSign = 1;
+                }else if(curr == ')'){   
+                    result = result * stack.pop() + stack.pop();
+                }
+            }
+        }
+        return result;
+    }
+}
+
+//basic caculator  II
 //method1:using stack
 //two steps
 //step1：extract number from string
@@ -135,3 +176,4 @@ class Solution {
         return result;
     }
 }
+//basic caculator  III
