@@ -177,3 +177,34 @@ class Solution {
     }
 }
 //basic caculator  III
+
+//express add operator
+class Solution {
+    public List<String> addOperators(String num, int target) {
+        List<String>result = new ArrayList<>();
+        dfs(result,num,new String(),target,0,0,0);
+        return result;
+    }
+    private void dfs(List<String>res, String s, String path, int target, int pos, int cal, int mul){
+        if(pos == s.length() ){
+            if(cal == target){
+                res.add(path);
+            }
+            return;
+        }
+        for(int i = pos; i <  s.length(); i++){
+            //start with 0;
+            if(i != pos && s.charAt(pos) == '0'){
+                break;
+            }
+            int cur = Integer.parseInt(s.substring(pos,i + 1));
+            if(pos == 0){
+                dfs(res,s,path + cur, target,i + 1, cur,cur);
+            }else{
+                dfs(res,s,path + "+" + cur, target,i + 1, cal + cur,cur);
+                   dfs(res,s,path + "-" + cur, target,i + 1, cal - cur,-cur);
+                   dfs(res,s,path + "*" + cur, target,i + 1, (cal - mul) + (mul * cur),mul * cur);
+            }
+        }
+    }
+}
